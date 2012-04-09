@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kendo and Ruby on Rails - Works Like a Charm</title>
+    <%= stylesheet_link_tag "http://cdn.kendostatic.com/2012.1.322/styles/kendo.common.min.css",
+      "http://cdn.kendostatic.com/2012.1.322/styles/kendo.default.min.css", :media => "all" %>
+    <%= javascript_include_tag "application",
+          "http://cdn.kendostatic.com/2012.1.322/js/kendo.all.min.js" %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<h1>Listing expenses</h1>
+
+
+<br />
+
+<div id="grid"></div>
+
+<script>
+    $(document).ready(function () {
+        var crudServiceBaseUrl = "/expenses",
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read:  {
+                        url: crudServiceBaseUrl,
+                        dataType: "json"
+                    },
+                    update: {
+                        url: function(expense) {
+                            return crudServiceBaseUrl + "/" + expense.id;
+                        },
+                        dataType: "json",
+                        contentType: "application/json",
+                        type: "PUT"
+                    },
+                    destroy: {
+                        url: function(expense) {
+                            return crudServiceBaseUrl + "/" + expense.id
+                        },
+                        dataType: "json",
+                        type: "DELETE"
+                    },
+                    create: {
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        contentType: "application/json",
+                        type: "POST"
+                    },
+                    parameterMap: function(expense, type) {
+                        if (type === "create" || type === "update") {
+                            return JSON.stringify({ expense: expense });
+                        }
+                    }
+                },
+                pageSize: 30,
+                schema: {
+                    model: {
+                        id: "id",
+                        fields: {
+                            title: { editable: true },
+                            amount: { type: "number", validation: { required: true } }
+                        }
+                    }
+                }
+            });
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            navigatable: true,
+            pageable: true,
+            height: 400,
+            toolbar: ["create", "save", "cancel"],
+            columns: [
+                { field: "title", width: "150px" },
+                { field: "amount", format: "{0:c}", width: "150px" },
+                { command: "destroy", title: " ", width: "110px" }],
+            editable: true
+        });
+    });
+</script>
+
